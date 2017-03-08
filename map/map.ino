@@ -6,7 +6,15 @@
 
 ESP8266WebServer server(80);
 
+IPAddress ip(192,168,0,21); // fixed IP address
+IPAddress gateway(192,168,0,255); // network gateway address
+IPAddress subnet(255,255,255,0); // network subnet mask
+
 const int led = 13;
+
+const int LED01 = D5;
+const int LED02 = D6;
+const int LED03 = D7;
 
 void handleRoot() {
     digitalWrite(led, 1);
