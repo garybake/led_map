@@ -8,11 +8,10 @@ IPAddress ip(192,168,0,21); // fixed IP address
 IPAddress gateway(192,168,0,255); // network gateway address
 IPAddress subnet(255,255,255,0); // network subnet mask
 
-const int led = 13;
-
-const int LED01 = D5;
-const int LED02 = D6;
-const int LED03 = D7;
+const int LED01 = D1;
+const int LED02 = D2;
+const int LED03 = D3;
+const int LED04 = D4;
 
 void handleRoot() {
     digitalWrite(LED01, 1);
@@ -62,22 +61,52 @@ void handleImat(){
                 message = "At location3";
                 led = LED03;
                 break;
+            case 4:
+                message = "At location4";
+                led = LED04;
+                break;
             default:
                 message = "location Argument = ";
                 message += server.arg("location");
         }
 
     }
-    digitalWrite(led, LOW);
+    light_led(led);
     server.send(200, "text/plain", message);     //Returns the HTTP response
     
     delay(1000);
     digitalWrite(LED01, HIGH);
 }
 
+void light_led(int led){
+    digitalWrite(LED01, LOW);
+    digitalWrite(LED02, LOW);
+    digitalWrite(LED03, LOW);
+    digitalWrite(LED04, LOW);
+
+    digitalWrite(led, HIGH);
+}
+
+void flashAll(){
+    digitalWrite(LED01, HIGH);
+    digitalWrite(LED02, HIGH);
+    digitalWrite(LED03, HIGH);
+    digitalWrite(LED04, HIGH);
+
+    delay(100);
+    
+    digitalWrite(LED01, LOW);
+    digitalWrite(LED02, LOW);
+    digitalWrite(LED03, LOW);
+    digitalWrite(LED04, LOW);
+}
+
 void setup(void){
     pinMode(LED01, OUTPUT);
-    digitalWrite(LED01, HIGH);
+    pinMode(LED02, OUTPUT);
+    pinMode(LED03, OUTPUT);
+    pinMode(LED04, OUTPUT);
+
     Serial.begin(115200);
     WiFi.begin(ssid, password);
     Serial.println("");
@@ -92,6 +121,8 @@ void setup(void){
     Serial.println(ssid);
     Serial.print("IP address: ");
     Serial.println(WiFi.localIP());
+
+    flashAll();
 
 //    if (MDNS.begin("esp8266")) {
 //        Serial.println("MDNS responder started");
