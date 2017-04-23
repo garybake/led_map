@@ -8,8 +8,8 @@
 
 ESP8266WebServer server(8222);
 
-const int PINCOUNT = 9;
-int leds[] = {D0, D1, D2, D3, D4, D5, D6, D7, D8};
+const int PINCOUNT = 8;
+int leds[] = {D0, D1, D2, D3, D4, D5, D7, D8};
 
 void handleRoot() {
 //    digitalWrite(LED01, 1);
@@ -141,13 +141,14 @@ void doConnect(){
 }
 
 void setup(void){
+    Serial.begin(115200);
+//    delay(1000);
 
     for (int i = 0; i < PINCOUNT; i++ ) {
-        Serial.println(leds[i]);
+        Serial.println(i);
         pinMode(leds[i], OUTPUT);
     }
 
-    Serial.begin(115200);
     doConnect();
 
     flashAll(); flashAll();
